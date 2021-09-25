@@ -89,8 +89,145 @@
         
 	
 
-    
-  
+    update(time) {
+     
+        this.x += this.velx;
+        this.y += this.velY;
+
+        
+        let player = (ball.x + ball.radius < app.width / 2) ? player1 : player2
+
+        if (ball.collisionDetect(player, ball)) {
+            let angle = 0;
+            hit.play()
+           
+            if (this.y < (player.y + player.height / 2)) {
+                angle = -1 * Math.PI / 4;
+            }
+           
+            else if (this.y > (player.y + player.height / 2)) {
+                angle = Math.PI / 4;
+            }
+
+			
+			let direction = (player === app.getNode('player1') ? 1 : -1)
+            this.velx = direction * this.speed * Math.cos(angle);
+            this.velY = this.speed * Math.sin(angle);
+
+            this.speed += 0.1;
+        }
+        if (this.y + this.height >= app.height || this.y <= 0) {
+			this.velY = -this.velY;
+			wall.play();
+        }
+
+	
+        if (this.x > app.width) {
+            app.getNode('player1').score++;
+            score += 1
+            console.log('player1 win!!!!', "score: " + player1.score );
+		
+			player1audio.play();
+            app.restartMatch();
+        }
+      
+        else if (this.x + this.width < 0) {
+            app.getNode('player2').score++;
+            score += 1
+            console.log('player2 win!!!!', "score: " + player2.score );
+			
+			player2audio.play()
+            app.restartMatch();
+        }
+        
+    }
+
+
+}
+
+class Pad {
+    constructor(id, x, y, upKey, downKey) {
+        this.id = id;
+        this.startX = x;
+        this.startY = y;
+        this.width = paddleWidth;
+        this.height = paddleHeight;
+        this.color = 'black';
+        this.upKey = upKey;
+        this.downKey = downKey;
+        this.score = 0;
+        this.resetPosition();
+        this.eventListner();
+    }
+
+    resetPosition() {
+        this.x = this.startX;
+        this.y = this.startY;
+        this.up = false;
+        this.down = false;
+    }
+
+    eventListner() {
+        document.addEventListener("keyup", (event) => this.keyboardEvent(event));
+        document.addEventListener("keydown", (event) => this.keyboardEvent(event));
+        
+    }
+
+    keyboardEvent(event) {
+        if (event.type === "keydown") {
+            if (event.key === this.upKey) {
+                this.up = true;
+            } else if (event.key === this.downKey) {
+                this.down = true;
+            }
+        } else if (event.type === "keyup") {
+            if (event.key === this.upKey) {
+                this.up = false;
+            } else if (event.key === this.downKey) {
+                this.down = false;
+            }
+        }
+    }
+
+    move() {
+        
+    }
+
+    // barrier() {
+    //     let min = 0;
+    //     let max = app.height - this.height;
+    //     this.y = Math.min(Math.max(this.y, min), max);
+    // }
+
+    update(time) {
+        // this.move();
+        if (this.up) {
+            this.y -= moveSpeed;
+        }
+        if (this.down) {
+            this.y += moveSpeed;
+        }
+
+         let min = 0;
+         let max = app.height - this.height;
+         this.y = Math.min(Math.max(this.y, min), max);
+        
+
+        // this.barrier();
+    }
+
+    // addScore() {
+    //     this.score += 1;
+    //     console.log(`${this.id} win!!!!  score: ${this.score}`);
+    // }
+
+    // getScore() {
+    //     return this.score;
+    // }
+}
+
+
+
   app.onInit = function(){
 			
 		};
