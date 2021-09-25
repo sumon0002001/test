@@ -47,3 +47,8 @@ Please start server with ```node index.js```.
 ## Guidelines
 - Break down your commits into the smallest commit that represents a cohesive feature that is in a build-able state.
 - This is a good place to show off your architeture, clean code, modularity, extensibility knowledge.
+
+
+## Video Link
+- here is the video link of the game.
+(https://www.loom.com/share/9795228c6c0043be846acec74edcbf1b)
