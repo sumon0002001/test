@@ -89,64 +89,9 @@
         
 	
 
-    update(time) {
-     
-        this.x += this.velx;
-        this.y += this.velY;
-
-        
-        let player = (ball.x + ball.radius < app.width / 2) ? player1 : player2
-
-        if (ball.collisionDetect(player, ball)) {
-            let angle = 0;
-            hit.play()
-           
-            if (this.y < (player.y + player.height / 2)) {
-                angle = -1 * Math.PI / 4;
-            }
-           
-            else if (this.y > (player.y + player.height / 2)) {
-                angle = Math.PI / 4;
-            }
-
-			
-			let direction = (player === app.getNode('player1') ? 1 : -1)
-            this.velx = direction * this.speed * Math.cos(angle);
-            this.velY = this.speed * Math.sin(angle);
-
-            this.speed += 0.1;
-        }
-        if (this.y + this.height >= app.height || this.y <= 0) {
-			this.velY = -this.velY;
-			wall.play();
-        }
-
-	
-        if (this.x > app.width) {
-            app.getNode('player1').score++;
-            score += 1
-            console.log('player1 win!!!!', "score: " + player1.score );
-		
-			player1audio.play();
-            app.restartMatch();
-        }
-      
-        else if (this.x + this.width < 0) {
-            app.getNode('player2').score++;
-            score += 1
-            console.log('player2 win!!!!', "score: " + player2.score );
-			
-			player2audio.play()
-            app.restartMatch();
-        }
-        
-    }
-
-
-}
-
+    
   
-		app.onInit = function(){
+  app.onInit = function(){
 			
 		};
 
